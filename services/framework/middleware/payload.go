@@ -19,6 +19,7 @@ const (
 	ContextBody contextKey = "_body"
 )
 
+// PayloadUnmarshallerGenerator unmarshaller middleware generator
 func PayloadUnmarshallerGenerator(pattern interface{}) func(http.HandlerFunc) http.HandlerFunc {
 	return func(next http.HandlerFunc) http.HandlerFunc {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {

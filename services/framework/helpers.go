@@ -22,7 +22,7 @@ func JSON(w http.ResponseWriter, code int, i interface{}) {
 	_ = enc.Encode(i)
 }
 
-// JSON is a helper function to write an json in output
+// JSONErr is a helper function to write an json error in output
 func JSONErr(w http.ResponseWriter, code int, err error) {
 	w.Header().Set(headerContentType, jsonMIME)
 	w.WriteHeader(code)

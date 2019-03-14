@@ -7,8 +7,6 @@ import (
 	"strings"
 	"time"
 
-	"test.com/test/services/safe"
-
 	"test.com/test/services/framework"
 	"test.com/test/services/framework/controller"
 	"test.com/test/services/framework/middleware"
@@ -57,17 +55,9 @@ func generate(w http.ResponseWriter, r *http.Request) {
 	if payload.Options > 0 {
 		option = payload.Options
 	}
-	var sem = make(chan bool, 4)
-	var final = make(chan string, option)
-	for i := 0; i < option; i++ {
-		safe.GoRoutine(func() {
-			RandPass(final, sem, payload.Size, payload.SpecialChars, payload.Numbers)
-		})
-	}
-
 	var finalRes = make([]string, option)
 	for i := 0; i < option; i++ {
-		finalRes[i] = <-final
+		finalRes[i] = RandPass(payload.Size, payload.SpecialChars, payload.Numbers)
 	}
 	framework.JSON(w, http.StatusOK, generateResponse{
 		Data: finalRes,
@@ -76,11 +66,7 @@ func generate(w http.ResponseWriter, r *http.Request) {
 }
 
 // RandPass generate random passwords
-func RandPass(f chan string, sem chan bool, size, special, num int) {
-	defer func() {
-		<-sem
-	}()
-	sem <- true
+func RandPass(size, special, num int) string {
 	var sChars = make([]string, special)
 	for i := 0; i < special; i++ {
 		n := rand.Intn(len(specialChars))
@@ -106,7 +92,7 @@ func RandPass(f chan string, sem chan bool, size, special, num int) {
 
 	final := Shuffle(res)
 
-	f <- strings.Join(final, "")
+	return strings.Join(final, "")
 }
 
 // Shuffle shuffle array

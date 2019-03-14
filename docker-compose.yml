@@ -1,0 +1,18 @@
+version: "3.7"
+services:
+  server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    networks:
+      - generate_network
+    environment:
+      - SERVER_PORT=:8085
+    ports:
+      - 8085:8085
+    volumes:
+      - ./bin:/bin
+
+networks:
+  generate_network:
+

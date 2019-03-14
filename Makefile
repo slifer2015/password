@@ -9,12 +9,12 @@ export CGO_ENABLED=0
 all:
 	$(BUILD) ./cmd/...
 
-run:
-	$(BIN)/server
+run: all
+	docker-compose up -d --force-recreate
 
 
 export LINTER=$(BIN)/gometalinter
-export LINTERCMD=$(LINTER) -e ".*.gen.go" -e ".*_test.go" -e "test.com/test/vendor/.*" --cyclo-over=19  --sort=path --disable-all --line-length=120 --deadline=100s --enable=structcheck --enable=deadcode --enable=gocyclo --enable=ineffassign --enable=golint --enable=goimports --enable=errcheck --enable=varcheck --enable=goconst --enable=megacheck --enable=misspell
+export LINTERCMD=$(LINTER) -e ".*.gen.go" -e ".*_test.go" -e "test.com/test/vendor/.*" --cyclo-over=19  --sort=path --disable-all --line-length=120 --deadline=100s --enable=structcheck --enable=deadcode --enable=gocyclo --enable=ineffassign --enable=golint --enable=goimports --enable=errcheck --enable=varcheck --enable=goconst --enable=misspell
 
 lint: $(LINTER)
 	$(LINTERCMD) $(ROOT)/cmd/...
@@ -37,4 +37,4 @@ test: convey
 	cd $(ROOT)/modules && $(GO) test -v ./...
 
 test-gui: convey
-	cd $(ROOT)/services && goconvey -host=0.0.0.0
+	cd $(ROOT) && goconvey -host=0.0.0.0

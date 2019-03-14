@@ -6,6 +6,7 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
+// GoRoutine safe go routine with recover
 func GoRoutine(f func()) {
 	go func() {
 		defer func() {

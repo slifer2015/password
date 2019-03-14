@@ -1,0 +1,76 @@
+openapi: "3.0.0"
+info:
+  description: "generate password api"
+  version: "1.0.0"
+  title: "password api"
+  contact:
+    email: "dara51php@gmail.com"
+servers:
+  - url: http://127.0.0.1:8085
+tags:
+  - name: "password"
+    description: "Everything about generating password"
+
+paths:
+  /generate:
+    post:
+      tags:
+        - "password"
+      summary: "generete custom password"
+      description: ""
+      operationId: "get pass"
+      requestBody:
+        content:
+          application/json:
+            schema:      # Request body contents
+              type: object
+              properties:
+                size:
+                  type: number
+                  example: 8
+                  description: length of password to be generated
+                special_chars:
+                  type: number
+                  example: 3
+                  description: length of special characters inside password
+                numbers:
+                  example: 1
+                  type: number
+                  description: length of numbers inside password
+                options:
+                  type: number
+                  example: 10
+                  description: number of password to be generated
+      responses:
+        200:
+          description: "successful operation"
+          content:
+            application/json:
+              schema:
+                $ref: "#/definitions/Password"
+        400:
+          description: "bad request operation"
+          content:
+            application/json:
+              schema:
+                $ref: "#/definitions/SimpleErr"
+
+definitions:
+  SimpleErr:
+    type: "object"
+    properties:
+      error:
+        type: string
+        example: "invalid request body"
+
+  Password:
+    type: object
+    properties:
+      data:
+        type: array
+        items :
+          type: string
+          description: generated passwords
+
+
+

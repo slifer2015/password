@@ -12,7 +12,7 @@ func Initialize(prefix string) {
 	viper.AutomaticEnv()
 	viper.SetConfigName(prefix + "_config")
 	viper.AddConfigPath(".")
-	viper.ReadInConfig()
+	_ = viper.ReadInConfig()
 	viper.OnConfigChange(func(e fsnotify.Event) {
 		logrus.Debug("Config file changed:", e.Name)
 	})

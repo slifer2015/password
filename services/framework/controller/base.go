@@ -1,18 +1,21 @@
 package controller
 
 import (
-	"gopkg.in/go-playground/validator.v9"
 	"net/http"
 	"reflect"
+
+	"gopkg.in/go-playground/validator.v9"
 	"test.com/test/services/assert"
 )
 
-// TODO : all more functionality
+// Base controller TODO : add more functionality
 type Base struct {
 }
 
+// ValidationErr validation error structure
 type ValidationErr map[string]string
 
+// Validate validate wrapper
 func Validate(i interface{}) (map[string]string, bool) {
 	var validationErr = make(map[string]string)
 	var failed bool

@@ -12,7 +12,7 @@ type ctrl struct {
 }
 
 func (ctrl) Routes(m *chi.Mux) {
-	m.Post("/", controller.Mix(
+	m.Post("/generate", controller.Mix(
 		generate,
 		middleware.PayloadUnmarshallerGenerator(generatePayload{}),
 	))

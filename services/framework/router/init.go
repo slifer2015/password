@@ -5,6 +5,9 @@ import (
 	"net/http"
 	"sync"
 
+	"github.com/sirupsen/logrus"
+	"github.com/spf13/viper"
+
 	"github.com/go-chi/chi/middleware"
 
 	"test.com/test/services/initializer"
@@ -32,8 +35,9 @@ func (initer) Initial(ctx context.Context) {
 			all[i].Routes(r)
 		}
 		go func() {
-			assert.Nil(http.ListenAndServe(":3000", r))
+			assert.Nil(http.ListenAndServe(viper.GetString("port"), r))
 		}()
+		logrus.Warnf("listen on port %s", viper.GetString("port"))
 
 	})
 }
